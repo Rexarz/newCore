@@ -1,0 +1,13 @@
+
+m_man.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+m_man
+  rotate: false
+  xy: 2, 2
+  size: 1004, 408
+  orig: 1004, 408
+  offset: 0, 0
+  index: -1

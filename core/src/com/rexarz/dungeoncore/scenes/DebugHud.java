@@ -36,14 +36,14 @@ public class DebugHud implements Disposable {
         fpsCount = 0;
         this.batch = batch;
 
-        viewport = new FitViewport(Constants.H_WIDTH, Constants.H_HEIGHT, new OrthographicCamera());
+        viewport = new FitViewport(Constants.V_WIDTH, Constants.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, batch);
 
 
         Label.LabelStyle style = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         fpsLabel = new Label(fpsCount + "", style);
         fpsLabel.setFontScale(1f, 1f);
-        fpsLabel.setPosition(0, Constants.H_HEIGHT - fpsLabel.getMinHeight());
+        fpsLabel.setPosition(0, Constants.V_HEIGHT - fpsLabel.getMinHeight());
 
         stage.addActor(fpsLabel);
     }

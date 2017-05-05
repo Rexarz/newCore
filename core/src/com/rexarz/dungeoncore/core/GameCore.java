@@ -6,12 +6,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.rexarz.dungeoncore.assets.AssetsLoader;
 import com.rexarz.dungeoncore.screens.GameScreen;
 
 public class GameCore extends Game {
 
     @Override
     public void create() {
+        new AssetsLoader();
         setScreen(new GameScreen(this));
     }
 }

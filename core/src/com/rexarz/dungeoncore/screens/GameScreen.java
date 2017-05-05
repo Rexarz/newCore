@@ -8,9 +8,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.rexarz.dungeoncore.core.GameCore;
+import com.rexarz.dungeoncore.gameobjects.Player;
 import com.rexarz.dungeoncore.scenes.DebugHud;
 import com.rexarz.dungeoncore.utils.Constants;
 
@@ -20,12 +24,16 @@ import com.rexarz.dungeoncore.utils.Constants;
 public class GameScreen implements Screen {
 
     private GameCore game;
+    private Player player;
 
+    private World world;
 
     private Viewport viewport;
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private DebugHud debugHud;
+
+    private Box2DDebugRenderer renderer;
 
 
     //    DEBUG
@@ -33,20 +41,26 @@ public class GameScreen implements Screen {
 
 
     public GameScreen(GameCore gameCore) {
+
+        world = new World(new Vector2(0,-9.8f),true);
+        renderer = new Box2DDebugRenderer();
+
         game = gameCore;
 
         camera = new OrthographicCamera();
 
-        viewport = new FitViewport(Constants.V_WIDTH, Constants.V_HEIGHT, camera);
+        viewport = new FillViewport(Constants.V_WIDTH / Constants.PPM, Constants.V_HEIGHT / Constants.PPM, camera);
 
-        camera.position.set(Constants.V_WIDTH / 2, Constants.V_HEIGHT / 2, 0);
+//        camera.position.set(viewport.getWorldWidth() / Constants.PPM, viewport.getWorldHeight() / Constants.PPM, 0);
 
         batch = new SpriteBatch();
+
+        player = new Player(world);
 
 
 //        DEBUG
         debugHud = new DebugHud(batch);
-        img = new Texture("badlogic.jpg");
+        img = new Texture("white.png");
     }
 
     @Override
@@ -54,14 +68,23 @@ public class GameScreen implements Screen {
 
     }
 
+    public void update(float delta){
+        world.step(1/60f,6,2);
+        player.update(delta);
+    }
+
+
+
     @Override
     public void render(float delta) {
         debugHud.update(delta);
         inputHandler(delta);
+        update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        renderer.render(world,camera.combined);
 
         camera.update();
 
@@ -69,11 +92,12 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        batch.draw(img, 0, 0);
+//        batch.draw(img, 0, 0);
+        player.draw(batch);
         batch.end();
 
 
-        batch.setProjectionMatrix(debugHud.stage.getCamera().combined);
+//        batch.setProjectionMatrix(debugHud.stage.getCamera().combined);
         debugHud.stage.draw();
 
 
@@ -109,13 +133,11 @@ public class GameScreen implements Screen {
     public void inputHandler(float delta){
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             System.out.println(camera.position.x);
-            camera.position.x += 1;
-            System.out.println("+");
+            camera.position.x += 1 * delta;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             System.out.println(camera.position.x);
-            camera.position.x -= 1;
-            System.out.println("+");
+            camera.position.x -= 1 * delta;
         }
     }
 }
