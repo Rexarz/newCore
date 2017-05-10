@@ -9,4 +9,5 @@ public class Constants {
     public static final int V_HEIGHT = 320;
 
 
+    public static final float C_OFFSET = 100 / PPM;
 }
