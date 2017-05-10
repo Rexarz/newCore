@@ -59,17 +59,16 @@ public class Player extends Sprite {
         playerIdle = new Animation<TextureRegion>(1/4f,frames);
         stateTime = 0;
 
-
         setBounds(0, 0, 18f / Constants.PPM, 36f / Constants.PPM);
         setPosition(0, 0);
-//        setRegion(playerStand);
+
         definePlayer();
-        createPlatform();
+//        createPlatform();
     }
 
     private void createPlatform() {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(0, 0);
+        bodyDef.position.set(5, 0);
         bodyDef.type = BodyDef.BodyType.StaticBody;
 
         Body platform = world.createBody(bodyDef);
@@ -113,9 +112,9 @@ public class Player extends Sprite {
 
 
 
+
         if (body.getPosition().y < 0) {
             body.getPosition().set(0, 0);
-            System.out.println("+");
         }
         playerMovements();
     }
