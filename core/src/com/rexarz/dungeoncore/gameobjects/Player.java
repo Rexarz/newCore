@@ -29,11 +29,9 @@ public class Player extends Sprite {
     public Body body;
 
 
-
-
-//    Constants
+    //    Constants
     private final float MAX_SPEED = 3f;
-    private final float JUMP_FORCE = 4f;
+    private final float JUMP_FORCE = 6f;
 
 
     public enum State {
@@ -49,21 +47,21 @@ public class Player extends Sprite {
 
 
 //        playerStand = new TextureRegion("pixelMan_atlas.png",0,0,15,32);
-        playerStand = new TextureRegion(new Texture("pixelMan_atlas.png"),0,0,15,32);
+        playerStand = new TextureRegion(new Texture("pixelMan_atlas.png"), 0, 0, 15, 32);
 
         frames = new Array<TextureRegion>();
 
         for (int i = 0; i < 2; i++) {
-            frames.add(new TextureRegion(new Texture("pixelMan_atlas.png"),i * 18,0,18,36));
+            frames.add(new TextureRegion(new Texture("pixelMan_atlas.png"), i * 18, 0, 18, 36));
         }
-        playerIdle = new Animation<TextureRegion>(1/4f,frames);
+        playerIdle = new Animation<TextureRegion>(1 / 4f, frames);
         stateTime = 0;
 
         setBounds(0, 0, 18f / Constants.PPM, 36f / Constants.PPM);
         setPosition(0, 0);
 
         definePlayer();
-//        createPlatform();
+        createPlatform();
     }
 
     private void createPlatform() {
@@ -89,8 +87,11 @@ public class Player extends Sprite {
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(getHeight() / 2);
+//        CircleShape shape = new CircleShape();
+//        shape.setRadius(getHeight() / 2);
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(getWidth() / 2, getHeight() / 2);
+
         fixtureDef.restitution = 0.1f;
 
         fixtureDef.shape = shape;
@@ -99,18 +100,12 @@ public class Player extends Sprite {
     }
 
 
-
-
-
     public void update(float delta) {
 
         stateTime += Gdx.graphics.getDeltaTime();
 
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
-        setRegion(playerIdle.getKeyFrame(stateTime,true));
-
-
-
+        setRegion(playerIdle.getKeyFrame(stateTime, true));
 
 
         if (body.getPosition().y < 0) {
@@ -121,11 +116,11 @@ public class Player extends Sprite {
 
     private void playerMovements() {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && body.getLinearVelocity().x < MAX_SPEED){
-            body.applyLinearImpulse(new Vector2(0.2f,0),body.getWorldCenter(),true);
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && body.getLinearVelocity().x < MAX_SPEED) {
+            body.applyLinearImpulse(new Vector2(0.2f, 0), body.getWorldCenter(), true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && body.getLinearVelocity().x > -MAX_SPEED){
-            body.applyLinearImpulse(new Vector2(-0.2f,0),body.getWorldCenter(),true);
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && body.getLinearVelocity().x > -MAX_SPEED) {
+            body.applyLinearImpulse(new Vector2(-0.2f, 0), body.getWorldCenter(), true);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             body.applyLinearImpulse(new Vector2(0, JUMP_FORCE), body.getWorldCenter(), true);

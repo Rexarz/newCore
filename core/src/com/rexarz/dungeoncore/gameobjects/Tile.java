@@ -16,30 +16,51 @@ public class Tile extends Sprite {
 
 
     public Body body;
+    public float value;
 
 
-    public Tile(float x, float y, World world) {
+    public Tile(float x, float y, World world, float value) {
         this.x = x;
         this.y = y;
         this.world = world;
+        this.value = value;
 
-        texture = new Texture("tiles/tile0.jpg");
-        setRegion(texture);
-        setBounds(0, 0, 16f / Constants.PPM, 16f / Constants.PPM);
+        if (value > 0.8f) {
+            texture = new Texture("tiles/tile0.jpg");
+            setRegion(texture);
+            setBounds(0, 0, 16f / Constants.PPM, 16f / Constants.PPM);
 
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
-        bodyDef.type = BodyDef.BodyType.StaticBody;
+            BodyDef bodyDef = new BodyDef();
+//            bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
+            bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
+            bodyDef.type = BodyDef.BodyType.StaticBody;
 
-        body = world.createBody(bodyDef);
+            body = world.createBody(bodyDef);
 
-        FixtureDef fixtureDef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(getWidth() / 2, getHeight() / 2);
-        fixtureDef.shape = shape;
-        body.createFixture(fixtureDef);
+            FixtureDef fixtureDef = new FixtureDef();
+            PolygonShape shape = new PolygonShape();
+            shape.setAsBox(getWidth() / 2, getHeight() / 2);
+            fixtureDef.shape = shape;
+            body.createFixture(fixtureDef);
 
-        setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+            setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+        } else {
+            setBounds(0, 0, 16f / Constants.PPM, 16f / Constants.PPM);
+
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+
+            body = world.createBody(bodyDef);
+
+            FixtureDef fixtureDef = new FixtureDef();
+            PolygonShape shape = new PolygonShape();
+            shape.setAsBox(getWidth() / 2, getHeight() / 2);
+            fixtureDef.shape = shape;
+            body.createFixture(fixtureDef);
+
+            setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+        }
 
     }
 

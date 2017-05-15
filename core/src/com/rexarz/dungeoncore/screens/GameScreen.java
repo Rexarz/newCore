@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
 
 
 //        MAP_DEBUG
-        map = new Map(10000, 100, world, camera);
+        map = new Map(1000, 50, world, camera);
 //        tile = new Tile(60f / Constants.PPM, 60f / Constants.PPM, world);
 
 
@@ -100,7 +100,7 @@ public class GameScreen implements Screen {
 
         camera.update();
 
-        renderer.render(world, camera.combined);
+//        renderer.render(world, camera.combined);
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
@@ -146,7 +146,7 @@ public class GameScreen implements Screen {
 
     public void inputHandler(float delta) {
         if (Gdx.input.isTouched()) {
-            System.out.println(Gdx.input.getX() + " : " + Gdx.input.getY());
+//            System.out.println(Gdx.input.getX() + " : " + Gdx.input.getY());
         }
     }
 }
