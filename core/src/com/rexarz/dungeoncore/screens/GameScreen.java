@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
 
 
 //        MAP_DEBUG
-        map = new Map(1000, 50, world, camera);
+        map = new Map(1000, 100, world, camera);
 //        tile = new Tile(60f / Constants.PPM, 60f / Constants.PPM, world);
 
 

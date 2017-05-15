@@ -25,7 +25,7 @@ public class Tile extends Sprite {
         this.world = world;
         this.value = value;
 
-        if (value > 0.8f) {
+        if (value > 0.9f) {
             texture = new Texture("tiles/tile0.jpg");
             setRegion(texture);
             setBounds(0, 0, 16f / Constants.PPM, 16f / Constants.PPM);
@@ -45,21 +45,21 @@ public class Tile extends Sprite {
 
             setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
         } else {
-            setBounds(0, 0, 16f / Constants.PPM, 16f / Constants.PPM);
-
-            BodyDef bodyDef = new BodyDef();
-            bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-
-            body = world.createBody(bodyDef);
-
-            FixtureDef fixtureDef = new FixtureDef();
-            PolygonShape shape = new PolygonShape();
-            shape.setAsBox(getWidth() / 2, getHeight() / 2);
-            fixtureDef.shape = shape;
-            body.createFixture(fixtureDef);
-
-            setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+//            setBounds(0, 0, 16f / Constants.PPM, 16f / Constants.PPM);
+//
+//            BodyDef bodyDef = new BodyDef();
+//            bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
+//            bodyDef.type = BodyDef.BodyType.StaticBody;
+//
+//            body = world.createBody(bodyDef);
+//
+//            FixtureDef fixtureDef = new FixtureDef();
+//            PolygonShape shape = new PolygonShape();
+//            shape.setAsBox(getWidth() / 2, getHeight() / 2);
+//            fixtureDef.shape = shape;
+//            body.createFixture(fixtureDef);
+//
+//            setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
         }
 
     }

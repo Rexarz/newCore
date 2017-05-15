@@ -2,6 +2,7 @@ package com.rexarz.dungeoncore.gameobjects;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.rexarz.dungeoncore.scenes.DebugHud;
 import com.rexarz.dungeoncore.utils.Constants;
@@ -60,8 +61,10 @@ public class Map {
             for (float j = 0; j < map[(int) i].length; j++) {
                 Tile tile = new Tile(xOffset, yOffset, world, map[(int) i][(int) j]);
                 yOffset += 16f;
-                tile.body.setActive(false);
-                tileMap[(int) i][(int) j] = tile;
+                if (tile.value > 0.9f) {
+                    tile.body.setActive(false);
+                    tileMap[(int) i][(int) j] = tile;
+                }
 
             }
             xOffset += 16f;
@@ -76,8 +79,10 @@ public class Map {
             for (int i = 0; i < tileMap.length; i++) {
                 for (int j = 0; j < tileMap[i].length; j++) {
 //                map[i][j] = new Tile(i, j, world);
-                    if (inViewport(i,j)) {
-                        if (tileMap[i][j].value > 0.8f) {
+                    if(tileMap[i][j].body == null){
+                        System.out.println("null");
+                    }else if (inViewport(tileMap[i][j].body) && tileMap[i][j].value > 0.9f) {
+                        if (tileMap[i][j].value > 0.9f) {
                             tileMap[i][j].draw(batch);
                             tileMap[i][j].body.setActive(true);
                             objectCount++;
@@ -92,10 +97,10 @@ public class Map {
         }
     }
 
-    private boolean inViewport(float i, float j) {
+    private boolean inViewport(Body body) {
         boolean result = false;
-        if (i / Constants.PPM > camera.position.x - (camera.viewportWidth / 2) && i / Constants.PPM < camera.position.x + (camera.viewportWidth / 2)) {
-            if (j / Constants.PPM > camera.position.y - (camera.viewportHeight / 2) && j / Constants.PPM < camera.position.y + (camera.viewportWidth / 2)) {
+        if (body.getPosition().x > camera.position.x - (camera.viewportWidth / 2f) && body.getPosition().x < camera.position.x + (camera.viewportWidth / 2f)) {
+            if (body.getPosition().y > camera.position.y - (camera.viewportHeight / 2f) && body.getPosition().y < camera.position.y + (camera.viewportWidth / 2f)) {
                 result = true;
                 return result;
             }
