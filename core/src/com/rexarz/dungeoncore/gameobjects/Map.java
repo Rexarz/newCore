@@ -13,7 +13,7 @@ import com.rexarz.dungeoncore.utils.PerlinNoiseGenerator;
  * Created by Serg on 10.05.2017.
  */
 public class Map {
-    public float[][] map;
+    public static float[][] map;
     public Tile[][] tileMap;
 
     private float width;
@@ -40,7 +40,14 @@ public class Map {
         noise = new PerlinNoiseGenerator();
         tileMap = new Tile[(int) width][(int) height];
         map = noise.generateWhiteNoise((int) width, (int) height);
-        map = noise.generatePerlinNoise(map, 5);
+        map = noise.generatePerlinNoise(map, 6);
+
+
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+//                System.out.println(map[i][j]);
+            }
+        }
 
 //        for (int i = 0; i < map.length; i++) {
 //            for (int j = 0; j < map[i].length; j++) {
@@ -51,7 +58,7 @@ public class Map {
 
 //        noise.drawMap();
 
-        generateMap();
+//        generateMap();
     }
 
     private void generateMap() {
@@ -75,25 +82,25 @@ public class Map {
     }
 
     public void draw(SpriteBatch batch) {
-        objectCount = 0;
-        if (isDone) {
-            for (int i = 0; i < tileMap.length; i++) {
-                for (int j = 0; j < tileMap[i].length; j++) {
-//                map[i][j] = new Tile(i, j, world);
-                    if (inViewport(i,j)) {
-                        if (tileMap[i][j].value > 0.5f) {
-                            tileMap[i][j].draw(batch);
-                            tileMap[i][j].body.setActive(true);
-                            objectCount++;
-                        }
-                    } else {
-                        tileMap[i][j].body.setActive(false);
-                    }
-
-                }
-            }
-            DebugHud.drawedObjectsCount = objectCount;
-        }
+//        objectCount = 0;
+//        if (isDone) {
+//            for (int i = 0; i < tileMap.length; i++) {
+//                for (int j = 0; j < tileMap[i].length; j++) {
+////                map[i][j] = new Tile(i, j, world);
+//                    if (inViewport(i,j)) {
+//                        if (tileMap[i][j].value > 0.5f) {
+//                            tileMap[i][j].draw(batch);
+//                            tileMap[i][j].body.setActive(true);
+//                            objectCount++;
+//                        }
+//                    } else {
+//                        tileMap[i][j].body.setActive(false);
+//                    }
+//
+//                }
+//            }
+//            DebugHud.drawedObjectsCount = objectCount;
+//        }
     }
 
     private boolean inViewport(float i, float j) {

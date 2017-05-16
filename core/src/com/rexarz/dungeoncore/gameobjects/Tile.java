@@ -2,6 +2,7 @@ package com.rexarz.dungeoncore.gameobjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.rexarz.dungeoncore.utils.Constants;
 
@@ -62,6 +63,19 @@ public class Tile extends Sprite {
             setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
         }
 
+    }
+
+    public Vector2 getPosition() {
+        return new Vector2(body.getPosition());
+    }
+
+    public void changePosition(float x, float y) {
+//        body.getPosition().set(x,y);
+//        body.getPosition().set(new Vector2(x,y));
+        body.setTransform(x, y, body.getAngle());
+//        setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+        setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+//        System.out.println(body.getPosition());
     }
 
 
