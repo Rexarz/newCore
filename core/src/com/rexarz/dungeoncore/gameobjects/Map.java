@@ -40,7 +40,7 @@ public class Map {
         noise = new PerlinNoiseGenerator();
         tileMap = new Tile[(int) width][(int) height];
         map = noise.generateWhiteNoise((int) width, (int) height);
-        map = noise.generatePerlinNoise(map, 1);
+        map = noise.generatePerlinNoise(map, 5);
 
 //        for (int i = 0; i < map.length; i++) {
 //            for (int j = 0; j < map[i].length; j++) {
@@ -63,8 +63,9 @@ public class Map {
                 yOffset += 16f;
                 if (tile.value > 0.9f) {
                     tile.body.setActive(false);
-                    tileMap[(int) i][(int) j] = tile;
+
                 }
+                tileMap[(int) i][(int) j] = tile;
 
             }
             xOffset += 16f;
@@ -79,10 +80,8 @@ public class Map {
             for (int i = 0; i < tileMap.length; i++) {
                 for (int j = 0; j < tileMap[i].length; j++) {
 //                map[i][j] = new Tile(i, j, world);
-                    if(tileMap[i][j].body == null){
-                        System.out.println("null");
-                    }else if (inViewport(tileMap[i][j].body) && tileMap[i][j].value > 0.9f) {
-                        if (tileMap[i][j].value > 0.9f) {
+                    if (inViewport(i,j)) {
+                        if (tileMap[i][j].value > 0.5f) {
                             tileMap[i][j].draw(batch);
                             tileMap[i][j].body.setActive(true);
                             objectCount++;
@@ -97,10 +96,11 @@ public class Map {
         }
     }
 
-    private boolean inViewport(Body body) {
+    private boolean inViewport(float i, float j) {
         boolean result = false;
-        if (body.getPosition().x > camera.position.x - (camera.viewportWidth / 2f) && body.getPosition().x < camera.position.x + (camera.viewportWidth / 2f)) {
-            if (body.getPosition().y > camera.position.y - (camera.viewportHeight / 2f) && body.getPosition().y < camera.position.y + (camera.viewportWidth / 2f)) {
+
+        if (tileMap[(int) i][(int) j].body.getPosition().x > camera.position.x - (camera.viewportWidth / 2f) && tileMap[(int) i][(int) j].body.getPosition().x < camera.position.x + (camera.viewportWidth / 2f)) {
+            if (tileMap[(int) i][(int) j].body.getPosition().y > camera.position.y - (camera.viewportHeight / 2f) && tileMap[(int) i][(int) j].body.getPosition().y < camera.position.y + (camera.viewportWidth / 2f)) {
                 result = true;
                 return result;
             }

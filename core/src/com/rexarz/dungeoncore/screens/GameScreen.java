@@ -20,6 +20,7 @@ import com.rexarz.dungeoncore.gameobjects.Player;
 import com.rexarz.dungeoncore.gameobjects.Tile;
 import com.rexarz.dungeoncore.scenes.DebugHud;
 import com.rexarz.dungeoncore.utils.Constants;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 /**
  * Created by sergei.ivanishin on 5/5/2017.
@@ -61,7 +62,7 @@ public class GameScreen implements Screen {
 
 
 //        MAP_DEBUG
-        map = new Map(1000, 100, world, camera);
+        map = new Map(100, 100, world, camera);
 //        tile = new Tile(60f / Constants.PPM, 60f / Constants.PPM, world);
 
 
@@ -70,6 +71,8 @@ public class GameScreen implements Screen {
         img = new Sprite(new Texture("bg.jpg"));
         img.setBounds(0, 0, img.getWidth() / Constants.PPM, img.getHeight() / Constants.PPM);
 
+        System.out.println(viewport.getWorldWidth());
+        System.out.println(viewport.getWorldHeight());
 
     }
 

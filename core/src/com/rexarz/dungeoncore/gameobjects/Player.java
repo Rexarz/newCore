@@ -87,10 +87,10 @@ public class Player extends Sprite {
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
-//        CircleShape shape = new CircleShape();
-//        shape.setRadius(getHeight() / 2);
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(getWidth() / 2, getHeight() / 2);
+        CircleShape shape = new CircleShape();
+        shape.setRadius(getHeight() / 2);
+//        PolygonShape shape = new PolygonShape();
+//        shape.setAsBox(getWidth() / 2, getHeight() / 2);
 
         fixtureDef.restitution = 0.1f;
 
