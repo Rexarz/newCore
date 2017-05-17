@@ -1,6 +1,7 @@
 package com.rexarz.dungeoncore.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -59,7 +60,7 @@ public class GameScreen implements Screen {
 
 
 //        MAP_DEBUG
-        map = new Map(1000000, 100, world, camera);
+        map = new Map(20000, 200, camera);
 
 
 //        SCREEN_RENDERER
@@ -97,6 +98,7 @@ public class GameScreen implements Screen {
 
 
         renderer.render(world, camera.combined);
+
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         screenRenderer.update(delta);
@@ -137,11 +139,27 @@ public class GameScreen implements Screen {
     }
 
     private void dbTouch() {
-        if (Gdx.input.justTouched()) {
-//            System.out.println(Gdx.input.getX() / Constants.PPM + " : " + Gdx.input.getY() / Constants.PPM);
-            System.out.println(camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0), camera.position.x, camera.position.y, camera.viewportWidth, camera.viewportHeight));
-            System.out.println(player.body.getPosition());
-
+        Vector3 touchPoint = new Vector3();
+        if (Gdx.input.isTouched()){
+            touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchPoint);
+//            System.out.println("Touch position" + camera.unproject(touchPoint));
+//            System.out.println("Player position" + player.body.getPosition());
+            try {
+                Map.map[(int) (touchPoint.x / 0.32f)][(int) (touchPoint.y / 0.32f)] = 0;
+            }catch (Exception e){
+                System.out.println(e);
+            }
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.F)){
+            touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchPoint);
+            try {
+                Map.map[(int) (touchPoint.x / 0.32f)][(int) (touchPoint.y / 0.32f)] = 1;
+            }catch (Exception e){
+                System.out.println(e);
+            }
+        }
+
     }
 }

@@ -19,19 +19,20 @@ public class Player extends Sprite {
 
     private TextureRegion playerStand;
     private Animation<TextureRegion> playerIdle;
-
     private Array<TextureRegion> frames;
-
+    private World world;
+    public Body body;
     private float stateTime;
 
-    private World world;
-
-    public Body body;
-
+    private State currentState;
+    private State previousState;
 
     //    Constants
     private final float MAX_SPEED = 3f;
     private final float JUMP_FORCE = 6f;
+
+    //    Boolean
+    private boolean isRight;
 
 
     public enum State {
@@ -45,8 +46,6 @@ public class Player extends Sprite {
         super(AssetsLoader.atlas.findRegion("m_man"));
         this.world = world;
 
-
-//        playerStand = new TextureRegion("pixelMan_atlas.png",0,0,15,32);
         playerStand = new TextureRegion(new Texture("pixelMan_atlas.png"), 0, 0, 15, 32);
 
         frames = new Array<TextureRegion>();
@@ -62,6 +61,8 @@ public class Player extends Sprite {
 
         definePlayer();
         createPlatform();
+
+        isRight = true;
     }
 
     private void createPlatform() {
@@ -88,7 +89,7 @@ public class Player extends Sprite {
 
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(getHeight() / 2);
+        shape.setRadius(getHeight() / 3);
 //        PolygonShape shape = new PolygonShape();
 //        shape.setAsBox(getWidth() / 2, getHeight() / 2);
 
@@ -104,23 +105,41 @@ public class Player extends Sprite {
 
         stateTime += Gdx.graphics.getDeltaTime();
 
-        setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+        setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 4));
         setRegion(playerIdle.getKeyFrame(stateTime, true));
-
-
-        if (body.getPosition().y < 0) {
-            body.getPosition().set(0, 0);
+        if (body.getLinearVelocity().x < 0 || !isRight){
+            isRight = false;
+            flip(true,false);
         }
+
+
+
+
+
         playerMovements();
+
+
     }
 
     private void playerMovements() {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && body.getLinearVelocity().x < MAX_SPEED) {
+        if ((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) && body.getLinearVelocity().x < MAX_SPEED) {
             body.applyLinearImpulse(new Vector2(0.2f, 0), body.getWorldCenter(), true);
+
+            if (isFlipX() && !isRight){
+                isRight = true;
+                flip(true,false);
+            }
+
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && body.getLinearVelocity().x > -MAX_SPEED) {
+        if ((Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) && body.getLinearVelocity().x > -MAX_SPEED) {
             body.applyLinearImpulse(new Vector2(-0.2f, 0), body.getWorldCenter(), true);
+
+//            if (!isFlipX() && isRight){
+//                isRight = false;
+//                flip(true,false);
+//            }
+
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             body.applyLinearImpulse(new Vector2(0, JUMP_FORCE), body.getWorldCenter(), true);

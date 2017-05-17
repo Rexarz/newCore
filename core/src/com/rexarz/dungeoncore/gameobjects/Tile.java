@@ -26,43 +26,30 @@ public class Tile extends Sprite {
         this.world = world;
         this.value = value;
 
-        if (value > 0.5f) {
-            texture = new Texture("tiles/tile0.jpg");
-            setRegion(texture);
-            setBounds(0, 0, 16f / Constants.PPM, 16f / Constants.PPM);
 
-            BodyDef bodyDef = new BodyDef();
-//            bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
-            bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
-            bodyDef.type = BodyDef.BodyType.StaticBody;
 
-            body = world.createBody(bodyDef);
 
-            FixtureDef fixtureDef = new FixtureDef();
-            PolygonShape shape = new PolygonShape();
-            shape.setAsBox(getWidth() / 2, getHeight() / 2);
-            fixtureDef.shape = shape;
-            body.createFixture(fixtureDef);
-
-            setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
-        } else {
-            setBounds(0, 0, 16f / Constants.PPM, 16f / Constants.PPM);
-
-            BodyDef bodyDef = new BodyDef();
-            bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-
-            body = world.createBody(bodyDef);
-
-            FixtureDef fixtureDef = new FixtureDef();
-            PolygonShape shape = new PolygonShape();
-            shape.setAsBox(getWidth() / 2, getHeight() / 2);
-            fixtureDef.shape = shape;
-            body.createFixture(fixtureDef);
-
-            setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+        if ( value < 0.5f){
+            setRegion(new Texture("tiles/tile1.jpg"));
+        }else{
+            setRegion(new Texture("tiles/tile0.jpg"));
         }
+        setBounds(0, 0, 16f / Constants.PPM, 16f / Constants.PPM);
 
+        BodyDef bodyDef = new BodyDef();
+//            bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
+        bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+
+        body = world.createBody(bodyDef);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(getWidth() / 2, getHeight() / 2);
+        fixtureDef.shape = shape;
+        body.createFixture(fixtureDef);
+
+        setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
     }
 
     public Vector2 getPosition() {
@@ -70,12 +57,17 @@ public class Tile extends Sprite {
     }
 
     public void changePosition(float x, float y) {
-//        body.getPosition().set(x,y);
-//        body.getPosition().set(new Vector2(x,y));
+
         body.setTransform(x, y, body.getAngle());
-//        setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
-//        System.out.println(body.getPosition());
+    }
+
+    public void changeTexture(){
+        if (value > 0.4f && value < 0.5f){
+            setRegion(new Texture("tiles/tile0.jpg"));
+        }else{
+            setRegion(new Texture("tiles/tile1.jpg"));
+        }
     }
 
 

@@ -57,6 +57,7 @@ public class ScreenRenderer {
                     if (j >= 0 && tempY < Map.map[tempX].length) {
                         if (Map.map[tempX][tempY] > 0.5f) {
                             tiles_0.get(pullIndex).changePosition(tempX * 0.32f, tempY * 0.32f);
+//                            tiles_0.get(pullIndex).changeTexture();
                             tiles_0.get(pullIndex).draw(batch);
                             pullIndex++;
                             DebugHud.drawedObjectsCount++;
@@ -66,23 +67,16 @@ public class ScreenRenderer {
             }
         }
 
-
-
-//        for (int i = 0; i < Map.map.length; i++) {
-//            for (int j = 0; j < Map.map[i].length; j++) {
-//                if ()
-//
-//            }
-//        }
-
     }
 
 
     public void generateTilesPull() {
-        for (int i = 0; i < 3750; i++) {
-            tiles_0.add(new Tile(0, 1000, world, 1));
+        for (int i = 0; i < 3650; i++) {
+            tiles_0.add(new Tile(0, 1000, world, 0.6f));
         }
-
+        for (int i = 0; i < 3650; i++) {
+            tiles_0.add(new Tile(0, 1000, world, 0.4f));
+        }
     }
 
 

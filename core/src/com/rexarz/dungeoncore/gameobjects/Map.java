@@ -9,6 +9,10 @@ import com.rexarz.dungeoncore.utils.Constants;
 import com.rexarz.dungeoncore.utils.Noise;
 import com.rexarz.dungeoncore.utils.PerlinNoiseGenerator;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * Created by Serg on 10.05.2017.
  */
@@ -18,21 +22,11 @@ public class Map {
 
     private float width;
     private float height;
-
     private PerlinNoiseGenerator noise;
-
-    protected World world;
     private OrthographicCamera camera;
 
-    //    DEBUG ONLY
-    private boolean isDone = false;
 
-
-    //    Object count
-    private int objectCount;
-
-    public Map(float width, float height, World world, OrthographicCamera camera) {
-        this.world = world;
+    public Map(float width, float height, OrthographicCamera camera) {
         this.width = width;
         this.height = height;
         this.camera = camera;
@@ -40,78 +34,7 @@ public class Map {
         noise = new PerlinNoiseGenerator();
         tileMap = new Tile[(int) width][(int) height];
         map = noise.generateWhiteNoise((int) width, (int) height);
-        map = noise.generatePerlinNoise(map, 6);
-
-
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-//                System.out.println(map[i][j]);
-            }
-        }
-
-//        for (int i = 0; i < map.length; i++) {
-//            for (int j = 0; j < map[i].length; j++) {
-//                System.out.print(map[i][j]);
-//            }
-//            System.out.println();
-//        }
-
-//        noise.drawMap();
-
-//        generateMap();
+        map = noise.generatePerlinNoise(map, 4);
     }
 
-    private void generateMap() {
-        float xOffset = 0;
-        float yOffset = 0;
-        for (float i = 0; i < map.length; i++) {
-            for (float j = 0; j < map[(int) i].length; j++) {
-                Tile tile = new Tile(xOffset, yOffset, world, map[(int) i][(int) j]);
-                yOffset += 16f;
-                if (tile.value > 0.9f) {
-                    tile.body.setActive(false);
-
-                }
-                tileMap[(int) i][(int) j] = tile;
-
-            }
-            xOffset += 16f;
-            yOffset = 0;
-        }
-        isDone = true;
-    }
-
-    public void draw(SpriteBatch batch) {
-//        objectCount = 0;
-//        if (isDone) {
-//            for (int i = 0; i < tileMap.length; i++) {
-//                for (int j = 0; j < tileMap[i].length; j++) {
-////                map[i][j] = new Tile(i, j, world);
-//                    if (inViewport(i,j)) {
-//                        if (tileMap[i][j].value > 0.5f) {
-//                            tileMap[i][j].draw(batch);
-//                            tileMap[i][j].body.setActive(true);
-//                            objectCount++;
-//                        }
-//                    } else {
-//                        tileMap[i][j].body.setActive(false);
-//                    }
-//
-//                }
-//            }
-//            DebugHud.drawedObjectsCount = objectCount;
-//        }
-    }
-
-    private boolean inViewport(float i, float j) {
-        boolean result = false;
-
-        if (tileMap[(int) i][(int) j].body.getPosition().x > camera.position.x - (camera.viewportWidth / 2f) && tileMap[(int) i][(int) j].body.getPosition().x < camera.position.x + (camera.viewportWidth / 2f)) {
-            if (tileMap[(int) i][(int) j].body.getPosition().y > camera.position.y - (camera.viewportHeight / 2f) && tileMap[(int) i][(int) j].body.getPosition().y < camera.position.y + (camera.viewportWidth / 2f)) {
-                result = true;
-                return result;
-            }
-        }
-        return result;
-    }
 }
