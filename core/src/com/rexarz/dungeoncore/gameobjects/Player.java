@@ -107,14 +107,15 @@ public class Player extends Sprite {
 
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 4));
         setRegion(playerIdle.getKeyFrame(stateTime, true));
-        if (body.getLinearVelocity().x < 0 || !isRight){
+
+        if (body.getLinearVelocity().x < 0 || !isRight) {
             isRight = false;
-            flip(true,false);
+            flip(true, false);
         }
-
-
-
-
+        if (body.getLinearVelocity().x > 0 || isRight) {
+            isRight = true;
+            flip(true, false);
+        }
 
         playerMovements();
 
@@ -126,10 +127,10 @@ public class Player extends Sprite {
         if ((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) && body.getLinearVelocity().x < MAX_SPEED) {
             body.applyLinearImpulse(new Vector2(0.2f, 0), body.getWorldCenter(), true);
 
-            if (isFlipX() && !isRight){
-                isRight = true;
-                flip(true,false);
-            }
+//            if (isFlipX() && !isRight){
+//                isRight = true;
+//                flip(true,false);
+//            }
 
         }
         if ((Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) && body.getLinearVelocity().x > -MAX_SPEED) {

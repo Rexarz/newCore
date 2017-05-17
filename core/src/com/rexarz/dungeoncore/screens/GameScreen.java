@@ -5,19 +5,19 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.rexarz.dungeoncore.assets.AssetsLoader;
 import com.rexarz.dungeoncore.core.GameCore;
 import com.rexarz.dungeoncore.gameobjects.Map;
 import com.rexarz.dungeoncore.gameobjects.Player;
-import com.rexarz.dungeoncore.gameobjects.Tile;
+import com.rexarz.dungeoncore.gameobjects.OldTile;
 import com.rexarz.dungeoncore.scenes.DebugHud;
 import com.rexarz.dungeoncore.utils.Constants;
 import com.rexarz.dungeoncore.utils.ScreenRenderer;
@@ -39,7 +39,7 @@ public class GameScreen implements Screen {
     private ScreenRenderer screenRenderer;
 
     private Map map;
-    private Tile tile;
+    private OldTile oldTile;
 
     private Box2DDebugRenderer renderer;
 
@@ -102,6 +102,10 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         screenRenderer.update(delta);
+
+//        batch.draw(AssetsLoader.dirtTiles.get(1),0,0,AssetsLoader.dirtTiles.get(0).getRegionWidth() / Constants.PPM, AssetsLoader.dirtTiles.get(0).getRegionHeight() / Constants.PPM);
+        batch.draw(new TextureRegion(AssetsLoader.dirtTexture,0,0,16,16),0,0);
+
         player.draw(batch);
         batch.end();
 
@@ -143,8 +147,6 @@ public class GameScreen implements Screen {
         if (Gdx.input.isTouched()){
             touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPoint);
-//            System.out.println("Touch position" + camera.unproject(touchPoint));
-//            System.out.println("Player position" + player.body.getPosition());
             try {
                 Map.map[(int) (touchPoint.x / 0.32f)][(int) (touchPoint.y / 0.32f)] = 0;
             }catch (Exception e){

@@ -3,8 +3,9 @@ package com.rexarz.dungeoncore.utils;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
+import com.rexarz.dungeoncore.assets.AssetsLoader;
 import com.rexarz.dungeoncore.gameobjects.Map;
-import com.rexarz.dungeoncore.gameobjects.Tile;
+import com.rexarz.dungeoncore.gameobjects.OldTile;
 import com.rexarz.dungeoncore.scenes.DebugHud;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class ScreenRenderer {
     private Map map;
     private SpriteBatch batch;
 
-    public List<Tile> tiles_0;
+    public List<OldTile> tiles_0;
 
     public ScreenRenderer(OrthographicCamera camera, World world, Map map, SpriteBatch batch) {
         this.camera = camera;
@@ -28,9 +29,8 @@ public class ScreenRenderer {
         this.map = map;
         this.batch = batch;
 
-        tiles_0 = new ArrayList<Tile>();
-        generateTilesPull();
-
+        tiles_0 = new ArrayList<OldTile>();
+//        generateTilesPull();
 
 
     }
@@ -53,31 +53,36 @@ public class ScreenRenderer {
             for (float j = downBorderY; j < upBorderY; j += 0.32f) {
                 int tempX = (int) (i / 0.32f);
                 int tempY = (int) (j / 0.32f);
-                if (i >= 0 && tempX < Map.map.length ) {
-                    if (j >= 0 && tempY < Map.map[tempX].length) {
-                        if (Map.map[tempX][tempY] > 0.5f) {
-                            tiles_0.get(pullIndex).changePosition(tempX * 0.32f, tempY * 0.32f);
-//                            tiles_0.get(pullIndex).changeTexture();
-                            tiles_0.get(pullIndex).draw(batch);
-                            pullIndex++;
-                            DebugHud.drawedObjectsCount++;
-                        }
-                    }
-                }
+                drawDebugMap();
+//                if (i >= 0 && tempX < Map.map.length) {
+//
+//                    if (j >= 0 && tempY < Map.map[tempX].length) {
+//                        if (Map.map[tempX][tempY] > 0.5f) {
+//                            tiles_0.get(pullIndex).changePosition(tempX * 0.32f, tempY * 0.32f);
+////                            tiles_0.get(pullIndex).changeTexture();
+//                            tiles_0.get(pullIndex).draw(batch);
+//                            pullIndex++;
+//                            DebugHud.drawedObjectsCount++;
+//                        }
+//                    }
+//                }
             }
         }
 
     }
 
-
-    public void generateTilesPull() {
-        for (int i = 0; i < 3650; i++) {
-            tiles_0.add(new Tile(0, 1000, world, 0.6f));
-        }
-        for (int i = 0; i < 3650; i++) {
-            tiles_0.add(new Tile(0, 1000, world, 0.4f));
-        }
+    private void drawDebugMap() {
+//        batch.draw(AssetsLoader.dirtTiles.get(0),5,5);
     }
 
 
+//    public void generateTilesPull() {
+//        for (int i = 0; i < 3650; i++) {
+//            tiles_0.add(new OldTile(0, 1000, world, 0.6f));
+//        }
+//        for (int i = 0; i < 3650; i++) {
+//            tiles_0.add(new OldTile(0, 1000, world, 0.4f));
+//        }
 }
+
+
