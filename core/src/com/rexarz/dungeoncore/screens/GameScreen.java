@@ -1,5 +1,6 @@
 package com.rexarz.dungeoncore.screens;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -39,6 +40,7 @@ public class GameScreen implements Screen {
 
     private Map map;
     private OldTile oldTile;
+    public static RayHandler rayHandler;
 
     private Box2DDebugRenderer renderer;
 
@@ -54,11 +56,15 @@ public class GameScreen implements Screen {
         viewport = new FillViewport(Constants.V_WIDTH / 40f, Constants.V_HEIGHT / 40f, camera);
         camera.position.set(viewport.getWorldWidth() / Constants.PPM, viewport.getWorldHeight() / Constants.PPM, 0);
 
+        rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(0f, 0f, 0f, 0.01f);
 
         player = new Player(world);
 
         contactsCore = new ContactsCore();
         world.setContactListener(contactsCore);
+
+
 
 
 //        MAP_DEBUG
@@ -70,6 +76,8 @@ public class GameScreen implements Screen {
 
 //        DEBUG
         debugHud = new DebugHud(batch, world);
+
+
 
 
     }
@@ -99,14 +107,19 @@ public class GameScreen implements Screen {
         update(delta);
 
 
+
+
 //        renderer.render(world, camera.combined);
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         screenRenderer.update(delta);
-
         player.draw(batch);
         batch.end();
+
+        rayHandler.setCombinedMatrix(camera);
+        rayHandler.updateAndRender();
+
 
 
         batch.setProjectionMatrix(debugHud.stage.getCamera().combined);

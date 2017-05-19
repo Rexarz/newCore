@@ -1,10 +1,13 @@
 package com.rexarz.dungeoncore.gameobjects;
 
+import box2dLight.DirectionalLight;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.github.czyzby.noise4j.map.Grid;
 import com.github.czyzby.noise4j.map.generator.cellular.CellularAutomataGenerator;
 import com.github.czyzby.noise4j.map.generator.room.dungeon.DungeonGenerator;
+import com.rexarz.dungeoncore.screens.GameScreen;
 import com.rexarz.dungeoncore.utils.PerlinNoiseGenerator;
 
 /**
@@ -20,6 +23,8 @@ public class Map {
     private OrthographicCamera camera;
 
     private CellularAutomataGenerator cellularGenerator;
+
+
 
     public static Grid grid;
 
@@ -37,7 +42,11 @@ public class Map {
 
 
 
-        grid = new Grid(4096);
+        grid = new Grid(512);
+
+
+
+
 
 
 //        final DungeonGenerator dungeonGenerator = new DungeonGenerator();
@@ -63,12 +72,7 @@ public class Map {
         cellularGenerator.generate(grid);
         Gdx.app.log("Map", "Map is generated");
 
-        for (int i = 0; i < 100; i++) {
-            for (int j = 0; j < 100; j++) {
-                System.out.println(grid.get(i,j));
-            }
 
-        }
 
     }
 

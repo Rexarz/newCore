@@ -1,5 +1,8 @@
 package com.rexarz.dungeoncore.utils;
 
+import box2dLight.DirectionalLight;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
@@ -7,6 +10,7 @@ import com.rexarz.dungeoncore.assets.AssetsLoader;
 import com.rexarz.dungeoncore.gameobjects.Map;
 import com.rexarz.dungeoncore.gameobjects.OldTile;
 import com.rexarz.dungeoncore.scenes.DebugHud;
+import com.rexarz.dungeoncore.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,7 @@ public class ScreenRenderer {
     private World world;
     private Map map;
     private SpriteBatch batch;
+    private DirectionalLight light;
 
     public List<OldTile> tiles_0;
 
@@ -28,6 +33,8 @@ public class ScreenRenderer {
         this.world = world;
         this.map = map;
         this.batch = batch;
+
+        light = new DirectionalLight(GameScreen.rayHandler,200, new Color(0,0,0,1),-90);
 
         tiles_0 = new ArrayList<OldTile>();
         generateTilesPull();

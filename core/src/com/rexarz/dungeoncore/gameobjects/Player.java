@@ -1,5 +1,6 @@
 package com.rexarz.dungeoncore.gameobjects;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.rexarz.dungeoncore.assets.AssetsLoader;
+import com.rexarz.dungeoncore.screens.GameScreen;
 import com.rexarz.dungeoncore.utils.Constants;
 
 /**
@@ -42,6 +44,8 @@ public class Player extends Sprite {
         RUNNING
     }
 
+    private PointLight pointLight;
+
     public Player(World world) {
         super(AssetsLoader.atlas.findRegion("m_man"));
         this.world = world;
@@ -59,8 +63,12 @@ public class Player extends Sprite {
         setBounds(0, 0, 18f / Constants.PPM, 36f / Constants.PPM);
         setPosition(0, 0);
 
+
+
         definePlayer();
         createPlatform();
+
+        pointLight = new PointLight(GameScreen.rayHandler, 200);
 
         isRight = true;
     }
@@ -102,6 +110,8 @@ public class Player extends Sprite {
 
 
     public void update(float delta) {
+        pointLight.setPosition(body.getPosition().x,body.getPosition().y);
+
 
         stateTime += Gdx.graphics.getDeltaTime();
 
