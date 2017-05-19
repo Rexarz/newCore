@@ -1,0 +1,6 @@
+Player:
+	1) Movements (Left, Right);
+	2) Sprint (Shift button);
+Map:
+	1) Generate map;
+	2) Generate different types of tiles;

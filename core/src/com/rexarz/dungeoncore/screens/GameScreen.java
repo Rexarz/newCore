@@ -6,20 +6,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.rexarz.dungeoncore.assets.AssetsLoader;
 import com.rexarz.dungeoncore.core.GameCore;
 import com.rexarz.dungeoncore.gameobjects.Map;
 import com.rexarz.dungeoncore.gameobjects.Player;
 import com.rexarz.dungeoncore.gameobjects.OldTile;
 import com.rexarz.dungeoncore.scenes.DebugHud;
 import com.rexarz.dungeoncore.utils.Constants;
+import com.rexarz.dungeoncore.utils.ContactsCore;
 import com.rexarz.dungeoncore.utils.ScreenRenderer;
 
 /**
@@ -31,6 +29,7 @@ public class GameScreen implements Screen {
     private Player player;
 
     private World world;
+    private ContactsCore contactsCore;
 
     private Viewport viewport;
     private OrthographicCamera camera;
@@ -57,6 +56,9 @@ public class GameScreen implements Screen {
 
 
         player = new Player(world);
+
+        contactsCore = new ContactsCore();
+        world.setContactListener(contactsCore);
 
 
 //        MAP_DEBUG
@@ -97,14 +99,11 @@ public class GameScreen implements Screen {
         update(delta);
 
 
-        renderer.render(world, camera.combined);
+//        renderer.render(world, camera.combined);
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         screenRenderer.update(delta);
-
-//        batch.draw(AssetsLoader.dirtTiles.get(1),0,0,AssetsLoader.dirtTiles.get(0).getRegionWidth() / Constants.PPM, AssetsLoader.dirtTiles.get(0).getRegionHeight() / Constants.PPM);
-        batch.draw(new TextureRegion(AssetsLoader.dirtTexture,0,0,16,16),0,0);
 
         player.draw(batch);
         batch.end();
@@ -144,21 +143,23 @@ public class GameScreen implements Screen {
 
     private void dbTouch() {
         Vector3 touchPoint = new Vector3();
-        if (Gdx.input.isTouched()){
+        if (Gdx.input.isTouched()) {
             touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPoint);
+
+
             try {
-                Map.map[(int) (touchPoint.x / 0.32f)][(int) (touchPoint.y / 0.32f)] = 0;
-            }catch (Exception e){
+                Map.grid.set((int) (touchPoint.x / 0.32f), (int) (touchPoint.y / 0.32f), 0);
+            } catch (Exception e) {
                 System.out.println(e);
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.F)){
+        if (Gdx.input.isKeyPressed(Input.Keys.F)) {
             touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPoint);
             try {
-                Map.map[(int) (touchPoint.x / 0.32f)][(int) (touchPoint.y / 0.32f)] = 1;
-            }catch (Exception e){
+                Map.grid.set((int) (touchPoint.x / 0.32f), (int) (touchPoint.y / 0.32f), 1);
+            } catch (Exception e) {
                 System.out.println(e);
             }
         }

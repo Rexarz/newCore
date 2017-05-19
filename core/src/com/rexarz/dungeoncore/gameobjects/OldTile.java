@@ -35,7 +35,7 @@ public class OldTile extends Sprite {
             setRegion(new Texture("tiles/tile0.jpg"));
         }
         setBounds(0, 0, 16f / Constants.PPM, 16f / Constants.PPM);
-
+;
         BodyDef bodyDef = new BodyDef();
 //            bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
         bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);

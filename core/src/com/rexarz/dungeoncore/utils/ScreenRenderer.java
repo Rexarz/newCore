@@ -30,7 +30,7 @@ public class ScreenRenderer {
         this.batch = batch;
 
         tiles_0 = new ArrayList<OldTile>();
-//        generateTilesPull();
+        generateTilesPull();
 
 
     }
@@ -53,7 +53,21 @@ public class ScreenRenderer {
             for (float j = downBorderY; j < upBorderY; j += 0.32f) {
                 int tempX = (int) (i / 0.32f);
                 int tempY = (int) (j / 0.32f);
-                drawDebugMap();
+
+
+                if (i >= 0 && tempX < Map.grid.getWidth()) {
+                    if (j >= 0 && tempY < Map.grid.getHeight()) {
+                        if (1f - Map.grid.get(tempX, tempY)  == 0f) {
+                            tiles_0.get(pullIndex).changePosition(tempX * 0.32f, tempY * 0.32f);
+                            tiles_0.get(pullIndex).draw(batch);
+                            pullIndex++;
+                            DebugHud.drawedObjectsCount++;
+                        }
+                    }
+                }
+
+
+//                drawDebugMap();
 //                if (i >= 0 && tempX < Map.map.length) {
 //
 //                    if (j >= 0 && tempY < Map.map[tempX].length) {
@@ -76,13 +90,12 @@ public class ScreenRenderer {
     }
 
 
-//    public void generateTilesPull() {
-//        for (int i = 0; i < 3650; i++) {
-//            tiles_0.add(new OldTile(0, 1000, world, 0.6f));
-//        }
-//        for (int i = 0; i < 3650; i++) {
-//            tiles_0.add(new OldTile(0, 1000, world, 0.4f));
-//        }
+    public void generateTilesPull() {
+        for (int i = 0; i < 3650; i++) {
+            tiles_0.add(new OldTile(0, 1000, world, 0.6f));
+        }
+
+    }
 }
 
 
